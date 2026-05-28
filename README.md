@@ -1,4 +1,4 @@
-# WFM Forecasting Engine
+# WFM Forecasting Calculator
 > Erlang C-powered FTE demand forecasting system that delivers sub-8% variance against actual staffing requirements, replacing manual spreadsheet forecasting for contact center operations.
 
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
@@ -7,7 +7,7 @@
 
 ---
 ## Executive Summary
-Contact center staffing operated on manual interval-based forecasting, producing variance rates of 18–25% against actual demand — a direct driver of SLA breaches and overstaffing costs. This engine applies the Erlang C queuing model to historical volume and AHT data, generating statistically grounded FTE requirements per interval. Deployed forecasts consistently achieve <8% variance, reducing schedule build time from 6 hours to under 40 minutes per cycle.
+Contact center staffing operated on manual interval-based forecasting, producing variance rates of 18–25% against actual demand — a direct driver of SLA breaches and overstaffing costs. This calculator applies the Erlang C queuing model to historical volume and AHT data, generating statistically grounded FTE requirements per interval. Deployed forecasts consistently achieve <8% variance, reducing schedule build time from 6 hours to under 40 minutes per cycle.
 
 ---
 ## Business Impact
@@ -18,6 +18,7 @@ Contact center staffing operated on manual interval-based forecasting, producing
 | SLA Achievement Rate | 71% | 88% | ↑ 17 pts |
 | Overstaffing Cost Exposure | High (untracked)| Quantified/Bounded | Controlled |
 
+---
 ---
 ## Architecture Overview
 ```mermaid
@@ -30,15 +31,13 @@ flowchart LR
     F --> G["FTE Output Layer\nInterval staffing matrix"]
     G --> H[("Schedule Export\n.xlsx / API feed")]
     style E fill:#1a1a2e,color:#e0e0ff,stroke:#7b7bff
-Tech Stack JustificationComponentTechnologyRationaleForecasting CorePython / Erlang CErlang C is the industry standard queuing model for contact center staffing; validated against Poisson arrival assumptions present in our dataData ManipulationPandasVectorized interval aggregation at scale; native CSV/SQL/Excel I/O avoids middleware overheadStatistical LayerSciPyUsed for confidence interval computation and distribution fitting on AHT dataSchedule ExportOpenPyXLDirect .xlsx generation for planner consumption without format conversion lossOrchestrationCronLightweight; no orchestration framework justified at current pipeline complexity
 Deployment
 Prerequisites
 Python 3.11+
-
 Input data: 30-min interval volume + AHT by skill/queue
 Local Setup
-git clone [https://github.com/ThommyShelby79/wfm-forecasting-engine.git](https://github.com/ThommyShelby79/wfm-forecasting-engine.git)
-cd wfm-forecasting-engine
+git clone [https://github.com/ThommyShelby79/wfm-forecasting-calculator.git](https://github.com/ThommyShelby79/wfm-forecasting-calculator.git)
+cd wfm-forecasting-calculator
 pip install -r requirements.txt
 cp config/.env.example config/.env
 Run
