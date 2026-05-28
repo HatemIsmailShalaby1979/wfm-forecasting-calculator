@@ -17,9 +17,6 @@ Contact center staffing operated on manual interval-based forecasting, producing
 | Weekly Schedule Build Time | ~6 hrs manual | ~40 min | ↓ 89% |
 | SLA Achievement Rate | 71% | 88% | ↑ 17 pts |
 | Overstaffing Cost Exposure | High (untracked)| Quantified/Bounded | Controlled |
-
----
----
 ## Architecture Overview
 ```mermaid
 flowchart LR
@@ -31,21 +28,6 @@ flowchart LR
     F --> G["FTE Output Layer\nInterval staffing matrix"]
     G --> H[("Schedule Export\n.xlsx / API feed")]
     style E fill:#1a1a2e,color:#e0e0ff,stroke:#7b7bff
-Deployment
-Prerequisites
-Python 3.11+
-Input data: 30-min interval volume + AHT by skill/queue
-Local Setup
-git clone [https://github.com/ThommyShelby79/wfm-forecasting-calculator.git](https://github.com/ThommyShelby79/wfm-forecasting-calculator.git)
-cd wfm-forecasting-calculator
-pip install -r requirements.txt
-cp config/.env.example config/.env
-Run
-# Batch forecast from CSV
-python src/data_pipeline.py --input data/sample_intervals.csv --output output/fte_schedule.xlsx
-
-# Variance report against actuals
-python src/variance_engine.py --forecast output/fte_schedule.xlsx --actuals data/actuals.csv
-Author
-Hatem Shalaby — Operations Architect & Automation Engineer
-LinkedIn · Portfolio · Email
+...
+Component,Technology,Rationale
+...,...,...
