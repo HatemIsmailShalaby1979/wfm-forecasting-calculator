@@ -66,11 +66,12 @@ cp config/.env.example config/.env
 
 # Batch forecast from CSV
 
-python src/data_pipeline.py --input data/sample_intervals.csv --output output/fte_schedule.xlsx
+# Interactive UI (current entrypoint)
+streamlit run app_wfm.py
 
-# Variance report against actuals
-
-python src/variance_engine.py --forecast output/fte_schedule.xlsx --actuals data/actuals.csv
+# Planned CLI modules (not yet implemented):
+# python src/data_pipeline.py   ← ROADMAP
+# python src/variance_engine.py ← ROADMAP
 
 ---
 
