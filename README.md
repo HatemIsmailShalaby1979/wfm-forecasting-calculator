@@ -1,81 +1,48 @@
 # WFM Forecasting Calculator
 
-> Erlang C-powered FTE demand forecasting system that delivers sub-8% variance against actual staffing requirements, replacing manual spreadsheet forecasting for contact center operations.
+> **An Erlang C workforce-forecasting calculator for contact-centre planning.**
 
----
+This project applies Erlang C queueing mathematics to interval volume and average-handle-time data to estimate staffing requirements, occupancy, service level, and FTE demand.
 
-## Executive Summary
+It is one of the technical precursors that informed the workforce-management engine inside Helix Prime.
 
-Contact center staffing operated on manual interval-based forecasting, producing variance rates of 18–25% against actual demand — a direct driver of SLA breaches and overstaffing costs. This calculator applies the Erlang C queuing model to historical volume and AHT data, generating statistically grounded FTE requirements per interval. Deployed forecasts consistently achieve <8% variance, reducing schedule build time from 6 hours to under 40 minutes per cycle.
+## What it demonstrates
 
----
+- Interval-based volume and AHT analysis
+- Erlang C staffing calculations
+- Shrinkage and occupancy considerations
+- Variance analysis against actual demand
+- Export-oriented planner outputs
+- A focused operational problem solved with a transparent model
 
-## Business Impact
+## Status
 
-| Metric | Baseline | Post-Deployment | Delta |
-| --- | --- | --- | --- |
-| Forecast Variance | 18–25% | <8% | ↓ 17 pts avg |
-| Weekly Schedule Build Time | ~6 hrs manual | ~40 min | ↓ 89% |
-| SLA Achievement Rate | 71% | 88% | ↑ 17 pts |
-| Overstaffing Cost Exposure | High (untracked) | Quantified/Bounded | Controlled |
+**Reference implementation / precursor project.**
 
----
+The repository contains project-specific benchmark claims such as forecast variance and schedule-build time. These should be treated as historical project context rather than independently audited production evidence in this portfolio.
 
-## Architecture Overview
+The broader, governed version of this operational thinking now lives in [Helix Prime](https://github.com/HatemIsmailShalaby1979/Helix-Prime).
 
-```mermaid
-flowchart LR
-    A[("Raw Volume Data\nCSV / DB Extract")] --> B["Data Ingestion Layer\npandas pipeline"]
-    B --> C["Interval Normalizer\n30-min bucketing"]
-    C --> D["AHT Aggregator\nRolling avg per skill"]
-    D --> E[["Erlang C Core\nP(wait), Intensity,\nAgent occupancy"]]
-    E --> F["Variance Engine\nActual vs Forecast\ndelta scoring"]
-    F --> G["FTE Output Layer\nInterval staffing matrix"]
-    G --> H[("Schedule Export\n.xlsx / API feed")]
-    style E fill:#1a1a2e,color:#e0e0ff,stroke:#7b7bff
+## Run locally
 
-```
+    git clone https://github.com/HatemIsmailShalaby1979/wfm-forecasting-calculator.git
+    cd wfm-forecasting-calculator
+    pip install -r requirements.txt
+    streamlit run app_wfm.py
 
-## Tech Stack Justification
+## Stack
 
-| Component | Technology | Rationale |
-| --- | --- | --- |
-| **Forecasting Core** | Python / Erlang C | Erlang C is the industry standard queuing model for contact center staffing; validated against Poisson arrival assumptions present in our data |
-| **Data Manipulation** | Pandas | Vectorized interval aggregation at scale; native CSV/SQL/Excel I/O avoids middleware overhead |
-| **Statistical Layer** | SciPy | Used for confidence interval computation and distribution fitting on AHT data |
-| **Schedule Export** | OpenPyXL | Direct .xlsx generation for planner consumption without format conversion loss |
-| **Orchestration** | Cron | Lightweight; no orchestration framework justified at current pipeline complexity |
+Python · Pandas · SciPy · OpenPyXL · Streamlit
 
----
+## Why it matters
 
-## Deployment
+This project shows the technical foundation behind the Helix direction: mathematical operational models first, governed orchestration later, and measurable outcomes throughout.
 
-### Prerequisites
+## Related work
 
-* Python 3.11+
-* Input data: 30-min interval volume + AHT by skill/queue
+- [Helix Prime](https://github.com/HatemIsmailShalaby1979/Helix-Prime)
+- [Portfolio](https://github.com/HatemIsmailShalaby1979/HatemIsmailShalaby1979)
 
-### Local Setup
+## License
 
-git clone [https://github.com/ThommyShelby79/wfm-forecasting-calculator.git]()
-cd wfm-forecasting-calculator
-pip install -r requirements.txt
-cp config/.env.example config/.env
-
-### Run
-
-# Batch forecast from CSV
-
-# Interactive UI (current entrypoint)
-streamlit run app_wfm.py
-
-# Planned CLI modules (not yet implemented):
-# python src/data_pipeline.py   ← ROADMAP
-# python src/variance_engine.py ← ROADMAP
-
----
-
-**Hatem Shalaby** — Operations Architect & Automation Engineer  
-[LinkedIn](https://linkedin.com/in/hatem-shalaby-7359611a2) · 
-[Portfolio](https://hatemismail2011shalaby.github.io/RTA-Operations-Portfolio/) · 
-[Email](mailto:hatemismail2011@gmail.com)
+MIT
