@@ -1,20 +1,28 @@
+<div align="center">
+
 # WFM Forecasting Calculator
 
-> **Status: learning exercise, May–June 2026 — with one module that genuinely
-> works.** The Erlang C engine runs and its own self-test passes. The Streamlit
-> app on top of it does not start from a clean install, because `requirements.txt`
-> lists one of the five packages the code imports. Details below.
+**A precursor to Helix Prime — the Erlang C engine that became its WFM module.**
 
-One of four small tools built during the May–June 2026 period, before Helix Prime
-existed. The Erlang C mathematics here is the same approach that later became
-Helix Prime's WFM engine (`engines/wfm/`). This repository is the original
-sketch; Helix Prime is the system.
+![Status](https://img.shields.io/badge/status-learning--exercise-yellow)
+![Type](https://img.shields.io/badge/type-precursor-blue)
+![Licence](https://img.shields.io/badge/licence-MIT-blue)
+![Python](https://img.shields.io/badge/python-3.12-3776ab)
+
+</div>
+
+## One-line identity
+
+A May–June 2026 learning exercise: a standalone Erlang C workforce-management calculator. Its forecasting maths is the original sketch of what became Helix Prime's `engines/wfm/` module.
+
+> [!NOTE]
+> **Operating principle.** The maths is the point. `shared_utils/erlang_c.py` implements the five standard WFM calculations as pure static methods, and its own self-test passes. The Streamlit UI on top of it does not start from a clean install — that is a packaging gap, not a maths gap.
+
+One of four small tools built during the May–June 2026 period, before Helix Prime existed. The Erlang C mathematics here is the same approach that later became Helix Prime's WFM engine (`engines/wfm/`). This repository is the original sketch; Helix Prime is the system.
 
 ## What works today
 
-**The Erlang C engine. This is real, and it is the reason to look at this
-repository.** `shared_utils/erlang_c.py` implements the five standard workforce-
-management calculations as pure static methods on `ErlangCCalculator`:
+**The Erlang C engine. This is real, and it is the reason to look at this repository.** `shared_utils/erlang_c.py` implements the five standard workforce-management calculations as pure static methods on `ErlangCCalculator`:
 
 | Method | What it returns |
 |---|---|
@@ -24,8 +32,7 @@ management calculations as pure static methods on `ErlangCCalculator`:
 | `occupancy(traffic_intensity, agents)` | Agent utilisation, as a percentage |
 | `required_agents(volume, aht, interval, target_sl, target_answer_time)` | The staffing figure that meets a service-level target, with the achieved SL, occupancy, and ASA beside it |
 
-The repository ships its own self-test inside the module. **Measured on
-2026-09-27, run against the code as committed:**
+The repository ships its own self-test inside the module. **Measured on 2026-09-27, run against the code as committed:**
 
 ```text
 Running Erlang C Tests...
@@ -38,34 +45,16 @@ Running Erlang C Tests...
 ✅ ALL ERLANG C TESTS PASSED
 ```
 
-Those are the engine's own assertions, not a summary. The maths checks out at
-the boundary cases too: `erlang_c(10, 8.5) = 0.5299` sits correctly between 0 and
-1, and `occupancy(8.5, 12) = 70.83%` is the expected `traffic ÷ agents`.
+Those are the engine's own assertions, not a summary. The maths checks out at the boundary cases too: `erlang_c(10, 8.5) = 0.5299` sits correctly between 0 and 1, and `occupancy(8.5, 12) = 70.83%` is the expected `traffic ÷ agents`.
 
-**The Streamlit app is substantial.** `app_wfm.py` is 416 lines and covers four
-modes — a quick staffing calculator, an interval staffing plan, a shrinkage
-calculator, and an FTE requirement calculator with a monthly cost projection.
-`src/data_pipeline.py` and `src/variance_engine.py` handle batch input and
-plan-vs-actual variance, exporting to Excel. `data/sample_intervals.csv` and
-`data/actuals.csv` are small illustrative inputs so the app has something to load.
+**The Streamlit app is substantial.** `app_wfm.py` is 416 lines and covers four modes — a quick staffing calculator, an interval staffing plan, a shrinkage calculator, and an FTE requirement calculator with a monthly cost projection. `src/data_pipeline.py` and `src/variance_engine.py` handle batch input and plan-vs-actual variance, exporting to Excel. `data/sample_intervals.csv` and `data/actuals.csv` are small illustrative inputs so the app has something to load.
 
 ## What does not work
 
-- **`requirements.txt` contains one line: `streamlit==1.31.0`.** `app_wfm.py`
-  imports `pandas`, `plotly.graph_objects`, and `numpy` as well. A reader who
-  follows the documented install gets an `ImportError` on first run. This is the
-  single most useful thing to fix in this repository.
-- **`SciPy` is not used.** Earlier revisions listed the stack as "Python · Pandas
-  · SciPy · OpenPyXL · Streamlit". SciPy is imported by no file in the repository
-  (zero matches). OpenPyXL is used, but only via pandas' `to_excel(engine=...)`
-  in the two `src/` scripts.
-- **There is no test suite.** `test_erlang_c()` is a print-and-assert function
-  living inside the library module rather than under a test runner. It works, but
-  nothing collects it, and it prints checkmarks instead of reporting pass/fail to
-  a harness.
-- **It is a calculator, not a planning system.** No workforce-management platform
-  integration, no live volume feed, no history, no persistence, no user accounts,
-  no access control.
+- **`requirements.txt` contains one line: `streamlit==1.31.0`.** `app_wfm.py` imports `pandas`, `plotly.graph_objects`, and `numpy` as well. A reader who follows the documented install gets an `ImportError` on first run. This is the single most useful thing to fix in this repository.
+- **`SciPy` is not used.** Earlier revisions listed the stack as "Python · Pandas · SciPy · OpenPyXL · Streamlit". SciPy is imported by no file in the repository (zero matches). OpenPyXL is used, but only via pandas' `to_excel(engine=...)` in the two `src/` scripts.
+- **There is no test suite.** `test_erlang_c()` is a print-and-assert function living inside the library module rather than under a test runner. It works, but nothing collects it, and it prints checkmarks instead of reporting pass/fail to a harness.
+- **It is a calculator, not a planning system.** No workforce-management platform integration, no live volume feed, no history, no persistence, no user accounts, no access control.
 
 ## Repository hygiene
 
@@ -73,10 +62,7 @@ Tracked files that should be removed rather than described:
 
 - `__pycache__/erlang_c.cpython-314.pyc` — a compiled artefact committed by accident.
 - `output/fte_schedule.xlsx` and `output/variance_report.xlsx` — generated output, committed.
-- Five `.txt` duplicates of the source files (`wfm-forecasting-toolkitREADME.md.txt`,
-  `...requirements.txt.txt`, `...srcapp_wfm.py.txt`, `...srcerlang_c.py.txt`,
-  `...examplessample_hourly_volumes.csv.xlsx`). These are upload-interface
-  artefacts, not content.
+- Five `.txt` duplicates of the source files (`wfm-forecasting-toolkitREADME.md.txt`, `...requirements.txt.txt`, `...srcapp_wfm.py.txt`, `...srcerlang_c.py.txt`, `...examplessample_hourly_volumes.csv.xlsx`). These are upload-interface artefacts, not content.
 
 ## Run it
 
@@ -93,29 +79,19 @@ print(E.required_agents(100, 180, 30, 0.8, 20))
 "
 ```
 
-For the Streamlit app, install what the code actually imports rather than what
-`requirements.txt` says:
+For the Streamlit app, install what the code actually imports rather than what `requirements.txt` says:
 
 ```bash
 pip install streamlit pandas plotly numpy openpyxl
 streamlit run app_wfm.py
 ```
 
-The second argument to `required_agents` is an average handling time in
-**seconds**, not minutes — the app converts before calling it, and a caller who
-passes minutes gets a quietly wrong answer rather than an error.
+The second argument to `required_agents` is an average handling time in **seconds**, not minutes — the app converts before calling it, and a caller who passes minutes gets a quietly wrong answer rather than an error.
 
-## Honest boundary
-
-This is a learning exercise. It is not a deployed service, and it does not
-connect to any workforce-management platform or live volume feed. Its output
-depends entirely on the interval data supplied to it. It has no authentication
-and no access control. No revenue was realised. There is no external audit, no
-certified data isolation, and no signed security review.
-
-Earlier revisions of this file carried benchmark claims about forecast variance
-and schedule-build time. No baseline, sample, or method was recorded for either,
-so neither is repeated here.
+> [!WARNING]
+> **Honest boundary.** This is a learning exercise. It is not a deployed service, and it does not connect to any workforce-management platform or live volume feed. Its output depends entirely on the interval data supplied to it. It has no authentication and no access control. No revenue was realised. There is no external audit, no certified data isolation, and no signed security review.
+>
+> Earlier revisions of this file carried benchmark claims about forecast variance and schedule-build time. No baseline, sample, or method was recorded for either, so neither is repeated here.
 
 ## Related work
 
