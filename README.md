@@ -110,14 +110,7 @@ The second argument to `required_agents` is an average handling time in **second
 
 ## Author
 
-**Hatem Ismail Shalaby** — Operations Architect · AI Systems Engineer · Founder
-
-- GitHub: [HatemIsmailShalaby1979](https://github.com/HatemIsmailShalaby1979)
-- LinkedIn: [hatem-shalaby-202902127](https://www.linkedin.com/in/hatem-shalaby-202902127/)
-- Email: hatemshalaby2025@gmail.com
-- Education: BSc Managerial Sciences (Computer Section), Sadat Academy for Management Sciences; Business Analytics Nanodegree, Udacity
-
-Based in Al Obour City, Al-Qalyubia Governorate, Egypt.
+Built by Hatem Ismail Shalaby, Contact Centre Operations & AI Implementation Lead | WFM & CX Transformation. Background: https://github.com/HatemIsmailShalaby1979
 
 ## Licence
 
