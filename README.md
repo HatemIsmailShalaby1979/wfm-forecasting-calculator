@@ -2,6 +2,21 @@
 
 # WFM Forecasting Calculator
 
+
+<!-- badges:start -->
+
+[![CI](https://github.com/HatemIsmailShalaby1979/wfm-forecasting-calculator/actions/workflows/Python%20package/badge.svg)](https://github.com/HatemIsmailShalaby1979/wfm-forecasting-calculator/actions)
+![licence](https://img.shields.io/badge/licence-MIT-blue)
+[![last commit](https://img.shields.io/github/last-commit/HatemIsmailShalaby1979/wfm-forecasting-calculator)](https://github.com/HatemIsmailShalaby1979/wfm-forecasting-calculator/commits/main)
+![status](https://img.shields.io/badge/ci-success-brightgreen?label=success%20(2026-10-05))
+
+*Measured 2026-10-06 — CI **success**; head `acbe674` (2026-10-05); Python.*
+
+<!-- No static test or coverage count is shown here: a frozen
+     number decays silently. Run the suite for a current figure;
+     the CI badge above is the live status. -->
+<!-- badges:end -->
+
 **A precursor to Helix Prime — the Erlang C engine that became its WFM module.**
 
 ![Status](https://img.shields.io/badge/status-learning--exercise-yellow)
