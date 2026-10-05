@@ -182,11 +182,11 @@ elif mode == "Interval Planning":
             uploaded = st.file_uploader("Upload hourly volumes CSV", type=['csv'])
             if uploaded:
                 df = pd.read_csv(uploaded)
-if 'volume' not in df.columns:
-    st.error("❌ CSV must contain a 'volume' column. Columns found: " + str(df.columns.tolist()))
-    hourly_volumes = [50] * 24
-else:
-    hourly_volumes = df['volume'].tolist()[:24]
+                if 'volume' not in df.columns:
+                    st.error("❌ CSV must contain a 'volume' column. Columns found: " + str(df.columns.tolist()))
+                    hourly_volumes = [50] * 24
+                else:
+                    hourly_volumes = df['volume'].tolist()[:24]
             else:
                 hourly_volumes = [50] * 24
     
@@ -307,10 +307,10 @@ elif mode == "Shrinkage Analysis":
         total_shrinkage_min = breaks + lunch + meetings + training + other
         shrinkage_pct = (total_shrinkage_min / shift_length) * 100
         productive_time = shift_length - total_shrinkage_min
-if productive_time < 0:
-    st.warning("⚠️ Total shrinkage exceeds shift length. Productive time set to 0 — check your inputs.")
-    productive_time = 0
-        
+        if productive_time < 0:
+            st.warning("⚠️ Total shrinkage exceeds shift length. Productive time set to 0 — check your inputs.")
+            productive_time = 0
+
         st.markdown("---")
         st.metric("Total Shrinkage", f"{shrinkage_pct:.1f}%", f"{total_shrinkage_min} min")
         st.metric("Productive Time", f"{productive_time} min")

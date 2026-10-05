@@ -34,8 +34,8 @@ class ErlangCCalculator:
             ValueError: If agents <= 0 or traffic >= agents
             
         Example:
-            >>> pw = ErlangCCalculator.erlang_c(10, 8.5)
-            >>> print(f"{pw:.4f}")  # 0.3847 = 38.47% wait
+>>> pw = ErlangCCalculator.erlang_c(10, 8.5)
+        >>> print(f"{pw:.4f}")  # 0.5299 = 52.99% wait
         """
         
         # Input validation
@@ -103,8 +103,8 @@ class ErlangCCalculator:
             float: Service level percentage (0-100)
             
         Example:
-            >>> sl = ErlangCCalculator.service_level(12, 8.5, 20, 180)
-            >>> print(f"{sl:.2f}%")  # 89.23%
+>>> sl = ErlangCCalculator.service_level(12, 8.5, 20, 180)
+        >>> print(f"{sl:.2f}%")  # 86.70%
         """
         
         if aht <= 0:
@@ -262,37 +262,52 @@ class ErlangCCalculator:
         }
 
 # Test functions
-def test_erlang_c():
-    """Unit tests for Erlang C calculations"""
+def run_selftest():
+    """Smoke-check the calculator when the module is run directly.
+
+    Named ``run_selftest`` rather than ``test_erlang_c`` so pytest can never
+    collect it: a helper that happens to be named like a test gets collected by
+    pytest and passes vacuously, which looks like coverage and is not. The real
+    suite is ``tests/test_erlang_c.py``.
+    """
     
     print("Running Erlang C Tests...")
     
     # Test 1: Basic Erlang C
     pw = ErlangCCalculator.erlang_c(10, 8.5)
     assert 0 < pw < 1, "Erlang C should be between 0 and 1"
-    print(f"✅ Test 1 Passed: Erlang C = {pw:.4f}")
+    print(f"[ok] Test 1 Passed: Erlang C = {pw:.4f}")
     
     # Test 2: Service level
     sl = ErlangCCalculator.service_level(12, 8.5, 20, 180)
     assert 0 <= sl <= 100, "Service level should be 0-100"
-    print(f"✅ Test 2 Passed: Service Level = {sl:.2f}%")
+    print(f"[ok] Test 2 Passed: Service Level = {sl:.2f}%")
     
     # Test 3: ASA
     asa = ErlangCCalculator.average_speed_of_answer(12, 8.5, 180)
     assert asa > 0, "ASA should be positive"
-    print(f"✅ Test 3 Passed: ASA = {asa:.2f} seconds")
+    print(f"[ok] Test 3 Passed: ASA = {asa:.2f} seconds")
     
     # Test 4: Occupancy
     occ = ErlangCCalculator.occupancy(8.5, 12)
     assert 0 <= occ <= 100, "Occupancy should be 0-100"
-    print(f"✅ Test 4 Passed: Occupancy = {occ:.2f}%")
+    print(f"[ok] Test 4 Passed: Occupancy = {occ:.2f}%")
     
     # Test 5: Required agents
     result = ErlangCCalculator.required_agents(100, 180, 30, 80, 20)
     assert result['required_agents'] > 0, "Should require agents"
-    print(f"✅ Test 5 Passed: Required {result['required_agents']} agents")
+    print(f"[ok] Test 5 Passed: Required {result['required_agents']} agents")
     
-    print("\n✅ ALL ERLANG C TESTS PASSED\n")
+    print("\n[ok] ALL ERLANG C TESTS PASSED\n")
 
 if __name__ == "__main__":
-    test_erlang_c()
+    # Reconfigure stdout so the check/cross marks below are encodable on a
+    # Windows console (cp1252/cp1256), which otherwise raises
+    # UnicodeEncodeError and hides the self-test's own output.
+    import sys
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(encoding="utf-8", errors="replace")
+        except (AttributeError, ValueError):
+            pass
+    run_selftest()

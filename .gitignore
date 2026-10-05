@@ -1,0 +1,35 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*.so
+
+# Packaging / virtualenvs
+build/
+dist/
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Test and coverage artefacts
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Not ignored, deliberately:
+#   data/*.csv and output/*.xlsx are the sample dataset and its generated
+#   outputs -- they are part of what the tool demonstrates.
